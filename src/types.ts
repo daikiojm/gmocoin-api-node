@@ -3,7 +3,10 @@ export type HttpHeader = { [name: string]: string | string[] };
 export type ArrowedHttpMethod = 'GET' | 'POST' | 'PUT';
 
 export type ApiConfig = {
-  endPoint: string;
+  endPoints?: {
+    public: string;
+    private: string;
+  };
   keepAlive?: boolean;
   timeout?: number;
   apiKey?: string;

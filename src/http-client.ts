@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { ApiConfig, ResponseRoot, StatusResponse, TickerResponse, OrderBooksResponse, TradesResponse } from './types';
 import { makeAuthHeader } from './utils';
+import { httpPublicEndPoint, httpPrivateEndPoint } from './constants';
 
 type ArrowedHttpMethod = 'GET' | 'POST' | 'PUT';
 type HttpHeader = { [name: string]: string | string[] };
@@ -8,13 +9,21 @@ type HttpHeader = { [name: string]: string | string[] };
 const defaultTimeout = 3000;
 
 export class GmoCoinApi {
-  private readonly endPoint!: string;
+  private readonly endPoints: {
+    public: string;
+    private: string;
+  } = {
+    public: httpPublicEndPoint,
+    private: httpPrivateEndPoint,
+  };
   private readonly timeout!: number;
   private readonly apiKey?: string;
   private readonly secretKey?: string;
 
   constructor(config: ApiConfig) {
-    this.endPoint = config.endPoint;
+    if (config.endPoints) {
+      this.endPoints = config.endPoints;
+    }
     this.timeout = config.timeout || defaultTimeout;
     this.apiKey = config.apiKey;
     this.secretKey = config.secretKey;
@@ -37,25 +46,21 @@ export class GmoCoinApi {
   }
 
   async get<T>(path: string, params?: {}) {
-    return this.request<T>('GET', path, params);
-  }
-
-  async post<T>(path: string, data?: {}) {
-    return this.request<T>('POST', path, {}, data);
+    return this.request<T>(this.endPoints.public, 'GET', path, params);
   }
 
   async getWithAuth<T>(path: string, params?: {}) {
-    return this.requestWithAuth<T>('GET', path, params);
+    return this.requestWithAuth<T>(this.endPoints.private, 'GET', path, params);
   }
 
   async postWithAuth<T>(path: string, data?: {}) {
-    return this.requestWithAuth<T>('GET', path, {}, data);
+    return this.requestWithAuth<T>(this.endPoints.private, 'GET', path, {}, data);
   }
 
-  private async request<T>(method: ArrowedHttpMethod, path: string, params?: {}, data?: {}, headers?: HttpHeader) {
+  private async request<T>(baseUrl: string, method: ArrowedHttpMethod, path: string, params?: {}, data?: {}, headers?: HttpHeader) {
     let options: AxiosRequestConfig = {
       method,
-      baseURL: this.endPoint,
+      baseURL: baseUrl,
       url: path,
       timeout: this.timeout,
       headers: {
@@ -85,18 +90,18 @@ export class GmoCoinApi {
     }
 
     const response = await axios.request<ResponseRoot<T>>(options);
-    if (response.data && response.data.status === 0) {
-      return response.data;
-    } else if (response.data && response.data.messages) {
+    if (response.data && response.data.messages) {
       const errors = response.data.messages;
       // here we throw the first error we can identify
       for (const error of errors) {
         throw new Error(error.message_string);
       }
     }
+
+    return response.data;
   }
 
-  private async requestWithAuth<T>(method: ArrowedHttpMethod, path: string, params?: {}, data?: {}) {
+  private async requestWithAuth<T>(baseUrl: string, method: ArrowedHttpMethod, path: string, params?: {}, data?: {}) {
     if (!this.apiKey) {
       throw new Error('You need to pass an API Key to create this instance.');
     }
@@ -107,6 +112,6 @@ export class GmoCoinApi {
 
     const headers = makeAuthHeader(this.apiKey, this.secretKey, method, path, params, data);
 
-    return this.request<T>(method, path, params, data, headers);
+    return this.request<T>(baseUrl, method, path, params, data, headers);
   }
 }
