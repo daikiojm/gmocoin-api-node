@@ -13,7 +13,10 @@ export type ApiConfig = {
   secretKey?: string;
 };
 
-export type Symbol = 'BTC' | 'ETH' | 'BCH' | 'LTC' | 'XRP' | 'BTC_JPY' | 'ETH_JPY' | 'BCH_JPY' | 'LTC_JPY' | 'XRP_JPY';
+export type SpotSymbol = 'BTC' | 'ETH' | 'BCH' | 'LTC' | 'XRP';
+export type LeverageSymbol = 'ETH_JPY' | 'BCH_JPY' | 'LTC_JPY' | 'XRP_JPY';
+
+export type Symbol = SpotSymbol | LeverageSymbol;
 
 export type Message = {
   message_code: string;
@@ -71,3 +74,19 @@ export type TradesResponse = {
   pagination: Pagination;
   list: Trade[];
 };
+
+export type AccountMarginResponse = {
+  actualProfitLoss: string;
+  availableAmount: string;
+  margin: string;
+  profitLoss: string;
+};
+
+export type Asset = {
+  amount: string;
+  available: string;
+  conversionRate: string;
+  symbol: SpotSymbol;
+};
+
+export type AccountAssetsResponse = Asset[];
