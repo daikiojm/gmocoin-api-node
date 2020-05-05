@@ -3,6 +3,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: [
     '@typescript-eslint',
+    'eslint-plugin-tsdoc',
   ],
   extends: [
     'eslint:recommended',
@@ -16,5 +17,6 @@ module.exports = {
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/ban-types': 'off',
+    'tsdoc/syntax': 'warn',
   }
 };

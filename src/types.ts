@@ -51,7 +51,12 @@ export type ResponseListWithPagination<T, P = Pagination> = ResponseList<T> & {
   pagination: P;
 };
 
-// https://api.coin.z.com/docs/#status
+/**
+ * Response of Service Status.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#status | Service Status}
+ */
 export type StatusResponse = {
   status: 'MAINTENANCE' | 'PREOPEN' | 'OPEN';
 };
@@ -61,7 +66,12 @@ export type Pagination = {
   count: number;
 };
 
-// https://api.coin.z.com/docs/#ticker
+/**
+ * Ticker.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#ticker | Ticker}
+ */
 export type Ticker = {
   ask: string;
   bid: string;
@@ -73,23 +83,43 @@ export type Ticker = {
   volume: string;
 };
 
-// https://api.coin.z.com/docs/#ticker
+/**
+ * Response of Ticker.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#orderbooks | Order Books}
+ */
 export type TickerResponse = Ticker[];
 
-// https://api.coin.z.com/docs/#orderbooks
+/**
+ * Book
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#orderbooks | Order Books}
+ */
 export type Book = {
   price: string;
   size: string;
 };
 
-// https://api.coin.z.com/docs/#orderbooks
+/**
+ * Response of OrderBooks.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#orderbooks | Order Books}
+ */
 export type OrderBooksResponse = {
   asks: Book[];
   bids: Book[];
   symbol: Symbol;
 };
 
-// https://api.coin.z.com/docs/#trades
+/**
+ * Trade
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#trades | Trade History}
+ */
 export type Trade = {
   price: string;
   side: 'BUY' | 'SELL';
@@ -97,10 +127,20 @@ export type Trade = {
   timestamp: string;
 };
 
-// https://api.coin.z.com/docs/#trades
+/**
+ * Response of Trades.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#trades | Trade History}
+ */
 export type TradesResponse = ResponseListWithPagination<Trade>;
 
-// https://api.coin.z.com/docs/#margin
+/**
+ * Response of Margin.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#margin | Margin}
+ */
 export type AccountMarginResponse = {
   actualProfitLoss: string;
   availableAmount: string;
@@ -108,7 +148,12 @@ export type AccountMarginResponse = {
   profitLoss: string;
 };
 
-// https://api.coin.z.com/docs/#assets
+/**
+ * Asset
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#assets | Assets}
+ */
 export type Asset = {
   amount: string;
   available: string;
@@ -116,10 +161,20 @@ export type Asset = {
   symbol: SpotSymbol;
 };
 
-// https://api.coin.z.com/docs/#assets
+/**
+ * Response of Assets
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#assets | Assets}
+ */
 export type AccountAssetsResponse = Asset[];
 
-// https://api.coin.z.com/docs/#orders
+/**
+ * Order
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#orders | Orders}
+ */
 export type Order = {
   rootOrderId: number;
   orderId: number;
@@ -136,13 +191,28 @@ export type Order = {
   timestamp: string;
 };
 
-// https://api.coin.z.com/docs/#orders
+/**
+ * Response of Orders.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#orders | Orders}
+ */
 export type OrdersResponse = ResponseList<Order>;
 
-// https://api.coin.z.com/docs/#active-orders
+/**
+ * Response of Active Orders
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#active-orders | Active Orders}
+ */
 export type ActiveOrdersResponse = ResponseListWithPagination<Order>;
 
-// https://api.coin.z.com/docs/#executions
+/**
+ * Execution
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#executions | Executions}
+ */
 export type Execution = {
   executionId: number;
   orderId: number;
@@ -156,13 +226,28 @@ export type Execution = {
   timestamp: string;
 };
 
-// https://api.coin.z.com/docs/#executions
+/**
+ * Response of Executions.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#executions | Executions}
+ */
 export type ExecutionsResponse = ResponseList<Execution>;
 
-// https://api.coin.z.com/docs/#latest-executions
+/**
+ * Response of Latest Executions.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#latest-executions | Latest Executions}
+ */
 export type LatestExecutionsResponse = ResponseListWithPagination<Execution>;
 
-// https://api.coin.z.com/docs/#open-positions
+/**
+ * Position
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#open-positions | Open Positions}
+ */
 export type Position = {
   positionId: number;
   symbol: LeverageSymbol;
@@ -176,10 +261,20 @@ export type Position = {
   timestamp: string;
 };
 
-// https://api.coin.z.com/docs/#open-positions
+/**
+ * Response of Open Positions.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#open-positions | Open Positions}
+ */
 export type OpenPositionsResponse = ResponseListWithPagination<Position>;
 
-// https://api.coin.z.com/docs/#position-summary
+/**
+ * PositionSummary
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#position-summary | Position Summary}
+ */
 export type PositionSummary = {
   averagePositionRate: string;
   positionLossGain: string;
@@ -189,10 +284,20 @@ export type PositionSummary = {
   symbol: string;
 };
 
-// https://api.coin.z.com/docs/#position-summary
+/**
+ * Response of Position Summary.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#position-summary | Position Summary}
+ */
 export type PositionSummaryResponse = ResponseList<PositionSummary>;
 
-// https://api.coin.z.com/docs/#order
+/**
+ * Request of Order.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#order | Order}
+ */
 export type OrderRequest = {
   symbol: Symbol;
   side: OrderSide;
@@ -201,10 +306,20 @@ export type OrderRequest = {
   size: string;
 };
 
-// https://api.coin.z.com/docs/#order
+/**
+ * Response of Order.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#order | Order}
+ */
 export type OrderResponse = string;
 
-// https://api.coin.z.com/docs/#close-order
+/**
+ * Request of Close Order.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#close-order | Close Order}
+ */
 export type CloseOrderRequest = {
   symbol: Symbol;
   side: OrderSide;
@@ -216,10 +331,20 @@ export type CloseOrderRequest = {
   }[];
 };
 
-// https://api.coin.z.com/docs/#close-order
+/**
+ * Response of Close Order.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#close-order | Close Order}
+ */
 export type CloseOrderResponse = string;
 
-// https://api.coin.z.com/docs/#close-bulk-order
+/**
+ * Request of Close Bulk Order.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#close-bulk-order | Close Bulk Order}
+ */
 export type CloseBulkOrderRequest = {
   symbol: Symbol;
   side: OrderSide;
@@ -227,5 +352,10 @@ export type CloseBulkOrderRequest = {
   price?: string;
 };
 
-// https://api.coin.z.com/docs/#close-bulk-order
+/**
+ * Response of Close Bulk Order.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/en/#close-bulk-order | Close Bulk Order}
+ */
 export type CloseBulkOrderResponse = string;
