@@ -1,5 +1,28 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { ApiConfig, ResponseRoot, StatusResponse, TickerResponse, OrderBooksResponse, TradesResponse } from './types';
+import {
+  ApiConfig,
+  ResponseRoot,
+  StatusResponse,
+  TickerResponse,
+  OrderBooksResponse,
+  TradesResponse,
+  AccountMarginResponse,
+  AccountAssetsResponse,
+  OrdersResponse,
+  Symbol,
+  ActiveOrdersResponse,
+  ExecutionsResponse,
+  LatestExecutionsResponse,
+  LeverageSymbol,
+  OpenPositionsResponse,
+  PositionSummaryResponse,
+  OrderRequest,
+  OrderResponse,
+  CloseOrderRequest,
+  CloseOrderResponse,
+  CloseBulkOrderRequest,
+  CloseBulkOrderResponse,
+} from './types';
 import { makeAuthHeader } from './utils';
 import { httpPublicEndPoint, httpPrivateEndPoint } from './constants';
 
@@ -45,15 +68,74 @@ export class GmoCoinApi {
     return this.get<TradesResponse>('/v1/trades', params);
   }
 
-  async get<T>(path: string, params?: {}) {
+  async getAccountMargin() {
+    return this.getWithAuth<AccountMarginResponse>('/v1/account/margin');
+  }
+
+  async getAccountAsset() {
+    return this.getWithAuth<AccountAssetsResponse>('/v1/account/assets');
+  }
+
+  async getOrders(params: { orderId: number }) {
+    return this.getWithAuth<OrdersResponse>('/v1/orders', params);
+  }
+
+  async getActiveOrders(params: { symbol: Symbol; page?: number; count?: number }) {
+    return this.getWithAuth<ActiveOrdersResponse>('/v1/activeOrders', params);
+  }
+
+  async getExecutions(params: { orderId?: number; executionId?: number }) {
+    return this.getWithAuth<ExecutionsResponse>('/v1/executions', params);
+  }
+
+  async getLatestExecutions(params: { symbol: Symbol; page?: number; count?: number }) {
+    return this.getWithAuth<LatestExecutionsResponse>('/v1/latestExecutions', params);
+  }
+
+  async getOpenPositions(params: { symbol: LeverageSymbol; page?: number; count?: number }) {
+    return this.getWithAuth<OpenPositionsResponse>('/v1/openPositions', params);
+  }
+
+  async getPositionSummary(params: { symbol: LeverageSymbol }) {
+    return this.getWithAuth<PositionSummaryResponse>('/v1/positionSummary', params);
+  }
+
+  async postOrder(params: OrderRequest) {
+    return this.postWithAuth<OrderResponse>('/v1/order', params);
+  }
+
+  async postChangeOrder(params: { orderId: number; price: string }) {
+    // todo: fix type
+    return this.postWithAuth<{}>('/v1/changeOrder', params);
+  }
+
+  async postCancelOrder(params: { orderId: number }) {
+    // todo: fix type
+    return this.postWithAuth<{}>('/v1/cancelOrder', params);
+  }
+
+  async postCloseOrder(params: CloseOrderRequest) {
+    return this.postWithAuth<CloseOrderResponse>('/v1/closeOrder', params);
+  }
+
+  async postCloseBulkOrder(params: CloseBulkOrderRequest) {
+    return this.postWithAuth<CloseBulkOrderResponse>('/v1/closeBulkOrder', params);
+  }
+
+  async postChangeLosscutPrice(params: { positionId: number; losscutPrice: string }) {
+    // todo: fix type
+    return this.postWithAuth<{}>('/v1/changeLosscutPrice', params);
+  }
+
+  private async get<T>(path: string, params?: {}) {
     return this.request<T>(this.endPoints.public, 'GET', path, params);
   }
 
-  async getWithAuth<T>(path: string, params?: {}) {
+  private async getWithAuth<T>(path: string, params?: {}) {
     return this.requestWithAuth<T>(this.endPoints.private, 'GET', path, params);
   }
 
-  async postWithAuth<T>(path: string, data?: {}) {
+  private async postWithAuth<T>(path: string, data?: {}) {
     return this.requestWithAuth<T>(this.endPoints.private, 'GET', path, {}, data);
   }
 
