@@ -21,7 +21,7 @@
     "api"
   ],
   "author": "daikiojm",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/daikiojm/gmocoin-api-node/issues"
   },

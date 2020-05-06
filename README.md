@@ -10,7 +10,7 @@ yarn add gmocoin-api-node
 
 ## Getting started
 
-Import the module and create a new client instance.
+Import the module and create a new client instance.  
 Passing api keys is optional only if you don't plan on doing authenticated calls.
 
 ```ts
@@ -30,6 +30,8 @@ import { GmoCoinApi } from 'gmocoin-api-node';
 
 ## TODO
 
-- Support Private API
 - Support Public WebSocket API
 - Support Private WebSocket API
+
+## License
+MIT
