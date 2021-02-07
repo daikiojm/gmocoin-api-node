@@ -29,7 +29,17 @@ export type SettleType = 'OPEN' | 'CLOSE';
 
 export type OrderStatus = 'WAITING' | 'ORDERED' | 'MODIFYING' | 'CANCELLING' | 'CANCELED' | 'EXECUTED' | 'EXPIRED';
 
-export type TimeInForce = 'FAK' | 'FAS';
+export type CancelType =
+  | 'USER'
+  | 'POSITION_LOSSCUT'
+  | 'INSUFFICIENT_BALANCE'
+  | 'INSUFFICIENT_MARGIN'
+  | 'ACCOUNT_LOSSCUT'
+  | 'EXPIRED_FAK'
+  | 'EXPIRED_FOK'
+  | 'EXPIRED_SOK';
+
+export type TimeInForce = 'FAK' | 'FAS' | 'FOK' | 'SOK';
 
 export type Message = {
   message_code: string;
@@ -187,6 +197,7 @@ export type Order = {
   executedSize: string;
   price: string;
   status: OrderStatus;
+  cancelType?: CancelType;
   timeInForce: TimeInForce;
   timestamp: string;
 };
@@ -302,8 +313,71 @@ export type OrderRequest = {
   symbol: Symbol;
   side: OrderSide;
   executionType: ExecutionType;
+  timeInForce?: TimeInForce;
   price?: string;
+  losscutPrice?: string;
   size: string;
+  cancelBefore?: boolean;
+};
+
+/**
+ * Request of ChangeOrder.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/#change-order | Order}
+ */
+export type ChangeOrderRequest = {
+  orderId: number;
+  price: string;
+  losscutPrice?: string;
+};
+
+/**
+ * Request of CancelOrder.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/#cancel-order | Order}
+ */
+export type CancelOrderRequest = {
+  orderId: number;
+};
+
+/**
+ * Request of CancelOrders.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/#cancel-orders | Order}
+ */
+export type CancelOrdersRequest = {
+  orderIds: number[];
+};
+
+/**
+ * Response of CancelOrders.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/#cancel-orders | Order}
+ */
+export type CancelOrdersResponse = {
+  failed?: {
+    message_code: string;
+    message_string: string;
+    orderId: number;
+  }[];
+  success?: number[];
+};
+
+/**
+ * Request of CancelBulkOrder.
+ *
+ * @remarks
+ * API Docs: {@link https://api.coin.z.com/docs/#cancel-bulk-order | Order}
+ */
+export type CancelBulkOrderRequest = {
+  symbol: Symbol;
+  side?: OrderSide;
+  settleType?: SettleType;
+  desc?: boolean;
 };
 
 /**
@@ -324,11 +398,13 @@ export type CloseOrderRequest = {
   symbol: Symbol;
   side: OrderSide;
   executionType: ExecutionType;
+  timeInForce?: TimeInForce;
   price?: string;
   settlePosition: {
     positionId: number;
     size: string;
   }[];
+  cancelBefore?: boolean;
 };
 
 /**
