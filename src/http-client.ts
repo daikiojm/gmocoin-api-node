@@ -280,7 +280,7 @@ export class GmoCoinApi {
   }
 
   private async postWithAuth<T>(path: string, data?: {}) {
-    return this.requestWithAuth<T>(this.endPoints.private, 'GET', path, {}, data);
+    return this.requestWithAuth<T>(this.endPoints.private, 'POST', path, {}, data);
   }
 
   private async request<T>(baseUrl: string, method: ArrowedHttpMethod, path: string, params?: {}, data?: {}, headers?: HttpHeader) {
