@@ -18,6 +18,11 @@ import {
   PositionSummaryResponse,
   OrderRequest,
   OrderResponse,
+  ChangeOrderRequest,
+  CancelOrderRequest,
+  CancelOrdersRequest,
+  CancelOrdersResponse,
+  CancelBulkOrderRequest,
   CloseOrderRequest,
   CloseOrderResponse,
   CloseBulkOrderRequest,
@@ -119,7 +124,7 @@ export class GmoCoinApi {
    * @remarks
    * API Docs: {@link https://api.coin.z.com/docs/en/#orders | Orders}
    */
-  async getOrders(params: { orderId: number }) {
+  async getOrders(params: { orderId: string }) {
     return this.getWithAuth<OrdersResponse>('/v1/orders', params);
   }
 
@@ -141,7 +146,7 @@ export class GmoCoinApi {
    * @remarks
    * API Docs: {@link https://api.coin.z.com/docs/en/#executions | Executions}
    */
-  async getExecutions(params: { orderId?: number; executionId?: number }) {
+  async getExecutions(params: { orderId?: number; executionId?: string }) {
     return this.getWithAuth<ExecutionsResponse>('/v1/executions', params);
   }
 
@@ -196,7 +201,7 @@ export class GmoCoinApi {
    * @remarks
    * API Docs: {@link https://api.coin.z.com/docs/en/#change-order | Change Order}
    */
-  async postChangeOrder(params: { orderId: number; price: string }) {
+  async postChangeOrder(params: ChangeOrderRequest) {
     return this.postWithAuth<undefined>('/v1/changeOrder', params);
   }
 
@@ -207,8 +212,30 @@ export class GmoCoinApi {
    * @remarks
    * API Docs: {@link https://api.coin.z.com/docs/en/#cancel-order | Cancel Order}
    */
-  async postCancelOrder(params: { orderId: number }) {
+  async postCancelOrder(params: CancelOrderRequest) {
     return this.postWithAuth<undefined>('/v1/cancelOrder', params);
+  }
+
+  /**
+   * Cancels multiple order.
+   * Target: Spot and Margin trading
+   *
+   * @remarks
+   * API Docs: {@link https://api.coin.z.com/docs/#cancel-orders | Cancel Order}
+   */
+  async postCancelOrders(params: CancelOrdersRequest) {
+    return this.postWithAuth<CancelOrdersResponse>('/v1/cancelOrders', params);
+  }
+
+  /**
+   * Cancels multiple order.
+   * Target: Spot and Margin trading
+   *
+   * @remarks
+   * API Docs: {@link https://api.coin.z.com/docs/#cancel-bulk-order | Cancel Order}
+   */
+  async postCancelBulkOrder(params: CancelBulkOrderRequest) {
+    return this.postWithAuth<number[]>('/v1/cancelBulkOrder', params);
   }
 
   /**
