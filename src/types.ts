@@ -15,6 +15,8 @@ export type ApiConfig = {
 
 export type SpotSymbol = 'BTC' | 'ETH' | 'BCH' | 'LTC' | 'XRP';
 
+export type AssetSymbol = SpotSymbol | 'JPY';
+
 export type LeverageSymbol = 'ETH_JPY' | 'BCH_JPY' | 'LTC_JPY' | 'XRP_JPY';
 
 export type Symbol = SpotSymbol | LeverageSymbol;
@@ -168,7 +170,7 @@ export type Asset = {
   amount: string;
   available: string;
   conversionRate: string;
-  symbol: SpotSymbol;
+  symbol: AssetSymbol;
 };
 
 /**
@@ -374,7 +376,7 @@ export type CancelOrdersResponse = {
  * API Docs: {@link https://api.coin.z.com/docs/#cancel-bulk-order | Order}
  */
 export type CancelBulkOrderRequest = {
-  symbol: Symbol;
+  symbols: Symbol[];
   side?: OrderSide;
   settleType?: SettleType;
   desc?: boolean;
