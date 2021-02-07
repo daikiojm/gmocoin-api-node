@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import * as querystring from 'querystring';
 import { HttpHeader, ArrowedHttpMethod } from './types';
 
 export const toSha256 = (key: string, value: string) =>
@@ -14,9 +13,8 @@ export const makeAuthHeader = (
   body?: {},
 ): HttpHeader => {
   const timestamp = Date.now().toString();
-  const paramsAsString = params && Object.keys(params).length > 0 ? `?${querystring.stringify(params)}` : '';
   const bodyAsString = body ? JSON.stringify(body) : '';
-  const text = `${timestamp}${method}${path}${paramsAsString}${bodyAsString}`;
+  const text = `${timestamp}${method}${path}${bodyAsString}`;
   const signature = toSha256(secretKey, text);
 
   return {
