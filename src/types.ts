@@ -17,7 +17,7 @@ export type SpotSymbol = 'BTC' | 'ETH' | 'BCH' | 'LTC' | 'XRP';
 
 export type AssetSymbol = SpotSymbol | 'JPY';
 
-export type LeverageSymbol = 'ETH_JPY' | 'BCH_JPY' | 'LTC_JPY' | 'XRP_JPY';
+export type LeverageSymbol = 'BTC_JPY' | 'ETH_JPY' | 'BCH_JPY' | 'LTC_JPY' | 'XRP_JPY';
 
 export type Symbol = SpotSymbol | LeverageSymbol;
 
